@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Parser</title>
+    <style>
+        body {
+            padding: 1rem;
+        }
+        
+        input {
+            margin: 1rem 0 0.5rem 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Conversor de Archivos a Sintaxis</h1>
+
+    <form action="" id="searchForm">
+        <p>
+            <label for="fileLoader">Elige un archivo:</label>
+            <br>
+            <input type="file" name="fileLoader" id="fileLoader"
+                accept=".txt" onchange="handleFileSelect()" required>
+        </p>
+
+        <p>
+            <label for="searchText">Busca dentro del archivo:</label>
+            <br>
+            <input type="text" name="searchText" id="searchText" required>
+        </p>
+
+        <input type="submit" value="Buscar">
+    </form>
+
+    <h2>Resultado:</h2>
+    <p id="result">Esperando...</p>
+
+    <script src="./index.js"></script>
+</body>
+</html>
