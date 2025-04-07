@@ -3,6 +3,9 @@ let json = {};
 
 form.addEventListener('submit', (event) => {
     event.preventDefault();
+    
+    const container = document.getElementById('resultContainer');
+    container.style.display = 'block';
 
     const text = document.getElementById('searchText').value;
     const result = findInJson(json, text);
@@ -32,9 +35,17 @@ function handleFileSelect() {
 
     reader.onload = () => {
         const input = reader.result;
-        console.log(input);
-        json = parseToJson(input);
-        console.log(JSON.stringify(json, null, 2));
+        const errorContainer = document.getElementById('errorContainer');
+
+        try {
+            console.log(input);
+            json = parseToJson(input);
+            console.log(JSON.stringify(json, null, 2));
+            errorContainer.textContent = '';
+        } catch(error) {
+            fileLoader.value = '';
+            errorContainer.textContent = error;
+        }
     }
 
     reader.readAsText(file);
@@ -44,25 +55,36 @@ function parseToJson(input) {
     const lines = input.split('\n').map(line => line.trim()).filter(line => line.length > 0);
     const items = [{}];
     let currentItem = items[0];
+    const curlySections = [];
 
     for (const line of lines) {
+        const parts = line.split(/\s+/);
+        const key = parts[0];
+
+        if(currentItem[key])            
+            throw new Error('El archivo contiene una clave duplicada: ' + key);
+
         if(line.endsWith('{')) {
-            const key = line.slice(0, -1).trim();
             const obj = {};
             currentItem[key] = obj;
             items.push(obj);
             currentItem = obj;
+            curlySections.push(true);
         } else if(line === '}') {
-            items.pop();
-            currentItem = items[items.length - 1];
+            if(curlySections.length > 0) {
+                curlySections.pop();
+                items.pop();
+                currentItem = items[items.length - 1];
+            } else
+                throw new Error('Hay una llave de cierre } sin una llave de apertura correspondiente');
         } else if(line) {
-            const parts = line.split(/\s+/);
-            const key = parts[0];
-            const value = parts.slice(1);
-            currentItem[key] = value.length > 1 ? value : value[0] || true; 
+            const value = parts.slice(1);             
+            currentItem[key] = value.length > 1 ? value : value[0] || key;
         }
-        
     }
+
+    if(curlySections.length > 0)
+        throw new Error('Hay una llave de apertura { sin una llave de cierre correspondiente');
 
     return items[0];
 }
