@@ -23,7 +23,8 @@
             <p>
                 <label for="searchText">Busca dentro del archivo:</label>
                 <br>
-                <input type="text" name="searchText" id="searchText" required>
+                <input type="text" name="searchText" id="searchText" required
+                    onkeypress="return event.key != ' '">
             </p>
 
             <input type="submit" value="Buscar">
