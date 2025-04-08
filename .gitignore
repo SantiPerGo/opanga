@@ -1,0 +1,29 @@
+# Node modules
+node_modules/
+
+# Jest coverage output
+coverage/
+
+# dotenv environment variables file
+.env
+
+# Build output
+/dist
+/build
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# IDE or editor specific files
+.idea/
+.vscode/
+
+# npm package lock files (optional, if you're not using them)
+package-lock.json
+yarn.lock
