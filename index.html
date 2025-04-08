@@ -4,50 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>File Parser</title>
-    <style>
-        body {
-            padding: 1rem;
-        }
-
-        input {
-            margin: 1rem 0 0.5rem 0;
-        }
-
-        #resultContainer {
-            display: none;
-        }
-
-        #errorContainer {
-            color: red;
-        }
-    </style>
+    <link rel="stylesheet" href="./index.css">
 </head>
 <body>
-    <h1>Conversor de Archivos a Sintaxis</h1>
+    <main>
+        <h1>Conversor de Archivos a Sintaxis</h1>
 
-    <form action="" id="searchForm">
-        <p>
-            <label for="fileLoader">Elige un archivo:</label>
-            <br>
-            <input type="file" name="fileLoader" id="fileLoader"
-                accept=".txt" onchange="handleFileSelect()" required>
-        </p>
-        
-        <p id="errorContainer"></p>
+        <form action="" id="searchForm">
+            <p>
+                <label for="fileLoader">Elige un archivo:</label>
+                <br>
+                <input type="file" name="fileLoader" id="fileLoader"
+                    accept=".txt" onchange="handleFileSelect()" required>
+            </p>
+            
+            <p id="errorContainer"></p>
 
-        <p>
-            <label for="searchText">Busca dentro del archivo:</label>
-            <br>
-            <input type="text" name="searchText" id="searchText" required>
-        </p>
+            <p>
+                <label for="searchText">Busca dentro del archivo:</label>
+                <br>
+                <input type="text" name="searchText" id="searchText" required>
+            </p>
 
-        <input type="submit" value="Buscar">
-    </form>
+            <input type="submit" value="Buscar">
+        </form>
 
-    <div id="resultContainer">
-        <h2>Resultado:</h2>
-        <p id="result">Esperando...</p>
-    </div>
+        <div id="resultContainer">
+            <p id="result">Esperando...</p>
+        </div>
+    </main>
 
     <script src="./index.js"></script>
 </body>

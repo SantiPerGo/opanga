@@ -5,13 +5,13 @@ form.addEventListener('submit', (event) => {
     event.preventDefault();
     
     const container = document.getElementById('resultContainer');
-    container.style.display = 'block';
+    container.style.display = 'flex';
 
     const text = document.getElementById('searchText').value;
     const result = findInJson(json, text);
 
     document.getElementById('result').innerHTML = result ?
-        JSON.stringify(result, null, 2) : 'No se encontraron resultados.';
+        parseToText(result, text) : 'No se encontraron resultados.';
 });
 
 function findInJson(json, text) {
@@ -28,6 +28,37 @@ function findInJson(json, text) {
     return null;
 }
 
+function parseToText(item, name, indent = 0) {
+    let text = '';
+    const indentation = '    '.repeat(indent);
+    
+    if(typeof item === 'boolean') {
+        text += `${indentation}${name}\n`;
+    } else if(Array.isArray(item)) {
+        text += `${indentation}${name} ${item.join(' ')}\n`
+    } else if(typeof item === 'object' && item !== null) {
+        const newIndent = '    '.repeat(indent+1);
+        text += `${indentation}${name} {\n`;
+
+        for(const key in item) {
+            if(typeof item[key] === 'boolean') {
+                text += `${newIndent}${key}\n`;
+            } else if(Array.isArray(item[key])) {
+                text += `${newIndent}${key} ${item[key].join(' ')}\n`
+            } else if(typeof item[key] === 'object' && item[key] !== null) {
+                text += parseToText(item[key], key, indent+1);
+            } else
+                text += `${newIndent}${key} ${item[key]}\n`;
+        }
+
+        text += `${indentation}}\n`
+    } else {
+        text += `${indentation}${name} ${item}\n`;
+    }
+
+    return text;
+}
+
 function handleFileSelect() {
     const fileLoader = document.getElementById('fileLoader');
     const file = fileLoader.files[0];
@@ -38,9 +69,7 @@ function handleFileSelect() {
         const errorContainer = document.getElementById('errorContainer');
 
         try {
-            console.log(input);
             json = parseToJson(input);
-            console.log(JSON.stringify(json, null, 2));
             errorContainer.textContent = '';
         } catch(error) {
             fileLoader.value = '';
@@ -79,7 +108,7 @@ function parseToJson(input) {
                 throw new Error('Hay una llave de cierre } sin una llave de apertura correspondiente');
         } else if(line) {
             const value = parts.slice(1);             
-            currentItem[key] = value.length > 1 ? value : value[0] || key;
+            currentItem[key] = value.length > 1 ? value : value[0] || true;
         }
     }
 
