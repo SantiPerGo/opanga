@@ -1,3 +1,5 @@
+<img src="./screenshot.png" style="width:100%;height:auto;" />
+
 # Proyecto VanillaJS con Jest
 
 Este es un proyecto básico en VanillaJS que incluye pruebas con Jest. Puedes usar el proyecto simplemente abriendo el archivo `index.html` en tu navegador, pero para ejecutar las pruebas automatizadas, necesitas instalar las dependencias de Jest.
